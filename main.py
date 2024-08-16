@@ -1,12 +1,13 @@
 import requests
 import redis
 import json
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 
-
+### Usando o redis-service in docker como cache ###
 try:
-    rd = redis.Redis(host="localhost", port=6379, db=0, decode_responses=True)
+    rd = redis.Redis(host="redis", port=6379, db=0, decode_responses=True)
+    
     # Testando a conexão
     rd.ping()
 except redis.ConnectionError as e:
