@@ -1,0 +1,29 @@
+# Arquivos específicos do Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Ambiente virtual
+.venv
+env/
+venv/
+ENV/
+
+# Arquivos de configuração sensíveis
+.env
+
+# Arquivos de log
+*.log
+
+# Arquivos temporários do sistema operacional
+.DS_Store
+Thumbs.db
+
+# Arquivos específicos de editores de código
+.idea/
+.vscode/
+
+# Arquivos gerados automaticamente
+dist/
+build/
+*.egg-info/
