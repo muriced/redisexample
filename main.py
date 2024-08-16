@@ -4,16 +4,18 @@ import json
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import JSONResponse
 
+from cache.Cache import Cache
 
-try:
-    rd = redis.Redis(host="localhost", port=6379, db=0, decode_responses=True)
-    # Testando a conexão
-    rd.ping()
-except redis.ConnectionError as e:
-    print("Failed to connect to Redis:", e)
-    raise
+# try:
+#     rd = redis.Redis(host="redis", port=6379, db=0, decode_responses=True)
+#     # Testando a conexão
+#     rd.ping()
+# except redis.ConnectionError as e:
+#     print("Failed to connect to Redis:", e)
+#     raise
 
 app = FastAPI()
+cache = Cache()
 
 @app.get("/")
 def read_root():
@@ -23,7 +25,8 @@ def read_root():
 def read_todo(todo_id: int):
     try:
         cache_key = f"todo_{todo_id}"
-        cached_data = rd.get(cache_key)
+        # cached_data = rd.get(cache_key)
+        cached_data = cache.get_cache(cache_key)
 
         if cached_data:
             print("Reading from cache...")
@@ -35,7 +38,8 @@ def read_todo(todo_id: int):
             response.raise_for_status()
 
             data = response.json()
-            rd.set(cache_key, json.dumps(data), ex=10)
+            # rd.set(cache_key, json.dumps(data), ex=10)
+            cache.set_cache(cache_key, json.dumps(data))
             return data
 
     except requests.exceptions.RequestException as e:
